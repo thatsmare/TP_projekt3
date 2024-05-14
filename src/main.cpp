@@ -1,10 +1,15 @@
 #include <pybind11/pybind11.h>
+#include <matplot/matplot.h>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
 int add(int i, int j) {
     return i + j;
+}
+
+int multiply(int i, int j){
+    return i*j;
 }
 
 namespace py = pybind11;
@@ -33,6 +38,10 @@ PYBIND11_MODULE(_core, m) {
         Subtract two numbers
 
         Some other explanation about the subtract function.
+    )pbdoc");
+
+    m.def("multiply", &multiply, R"pbdoc(
+        Multiply two numbers
     )pbdoc");
 
 #ifdef VERSION_INFO
