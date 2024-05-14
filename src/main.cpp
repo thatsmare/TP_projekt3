@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <matplot/matplot.h>
+#include <set>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -9,7 +10,14 @@ int add(int i, int j) {
 }
 
 int multiply(int i, int j){
-    return i*j;
+    using namespace matplot;
+
+    std::set<std::vector<double>> Y = {
+        {16, 5, 9, 4}, {2, 11, 7, 14}, {3, 10, 6, 15}, {13, 8, 12, 1}};
+    plot(Y);
+
+    show();
+    return 0;
 }
 
 namespace py = pybind11;
