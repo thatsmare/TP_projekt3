@@ -34,7 +34,7 @@ namespace audio
 
         AudioFile<float> aFile;
         aFile.setNumChannels (2);
-        a.setNumSamplesPerChannel (44100);
+        aFile.setNumSamplesPerChannel (44100);
 
            //---------------------------------------------------------------
         // 2. Create some variables to help us generate a sine wave
@@ -45,11 +45,11 @@ namespace audio
         //---------------------------------------------------------------
         // 3. Write the samples to the AudioFile sample buffer
         
-        for (int i = 0; i < a.getNumSamplesPerChannel(); i++)
+        for (int i = 0; i < aFile.getNumSamplesPerChannel(); i++)
         {
-            for (int channel = 0; channel < a.getNumChannels(); channel++)
+            for (int channel = 0; channel < aFile.getNumChannels(); channel++)
             {
-                a.samples[channel][i] = sin ((static_cast<float> (i) / sampleRate) * frequencyInHz * 2.f * (float)M_PI);
+                aFile.samples[channel][i] = sin ((static_cast<float> (i) / sampleRate) * frequencyInHz * 2.f * (float)M_PI);
             }
         }
         
