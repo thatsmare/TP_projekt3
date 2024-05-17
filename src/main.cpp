@@ -23,6 +23,27 @@ int multiply(int i, int j){
     return 0;
 }
 
+void file_location_in(){
+
+}
+
+void signal_visualization(){
+    AudioFile<double> audiosample;
+
+    std::string file_location = C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav;
+
+    audiosample.load(file_location);
+
+    int sampleRate = audiosample.getSampleRate();
+
+    using namespace matplot;
+
+
+}
+
+
+
+
 
 namespace py = pybind11;
 
@@ -46,14 +67,12 @@ PYBIND11_MODULE(_core, m) {
         Some other explanation about the add function.
     )pbdoc");
 
-    m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-        Subtract two numbers
-
-        Some other explanation about the subtract function.
-    )pbdoc");
-
     m.def("multiply", &multiply, R"pbdoc(
         Multiply two numbers
+    )pbdoc");
+
+     m.def("signal_visualization", &signal_visualization, R"pbdoc(
+        Visualizes the signal with matplot library
     )pbdoc");
 
 #ifdef VERSION_INFO
