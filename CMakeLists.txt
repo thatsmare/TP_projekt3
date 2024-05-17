@@ -31,3 +31,4 @@ add_subdirectory(matplotplusplus)
 
 target_link_libraries(_core PUBLIC matplot)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AudioFile)

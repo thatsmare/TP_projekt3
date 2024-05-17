@@ -2,6 +2,7 @@
 #include <matplot/matplot.h>
 #include <set>
 #include <cmath>
+#include "AudioFile.h"
 
 
 #define STRINGIFY(x) #x
@@ -12,13 +13,13 @@ int add(int i, int j) {
 }
 
 int multiply(int i, int j){
-    using namespace matplot;
+    AudioFile<double> audioFile;
 
-    std::set<std::vector<double>> Y = {
-        {16, 5, 9, 4}, {2, 11, 7, 14}, {3, 10, 6, 15}, {13, 8, 12, 1}};
-    plot(Y);
+    audioFile.load ("C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav");
 
-    show();
+    int sampleRate = audioFile.getSampleRate();
+    std::cout << sampleRate;
+
     return 0;
 }
 
