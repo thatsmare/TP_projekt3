@@ -185,6 +185,12 @@ void saw_wave_generate(){
             fourier_approx +=  pow(-1, i)*sin(2*M_PI*frequency*time[t]*i + phase)/i;
             }
             signal[t]= amplitude*(0.5 - (1/M_PI)*fourier_approx) + min_value; //from wikipedia + min_value
+            if(signal[t] > min_value + amplitude){      //better accuracy
+                signal[t] = min_value+amplitude;
+            }
+            if(signal[t] < min_value){
+                signal[t] = min_value;
+            }
         }
 
 
