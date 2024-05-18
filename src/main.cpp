@@ -42,6 +42,9 @@ void signal_visualization() {
 
     std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
 
+    std::cout << "Location of the file to visualize:" << std::endl;     //mozliwosc dobory sciezki do pliku
+    std::cin >> file_location;
+
     audiosample.load(file_location);
 
     // Częstotliwość próbkowania
