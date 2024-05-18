@@ -69,7 +69,14 @@ void signal_visualization() {
 void signal_generate_sinusoidal() {
     double amplitude, frequency, phase, duration;
     int sampleRate;
+    bool sine = true;
+    char decision;
 
+    std::cout << "Change to cos? (Y/N)" << std::endl;
+    std::cin >> decision;
+    if(decision == 'Y' || decision == 'y'){
+        sine = false;
+    }
     std::cout << "Amplitude: ";
     std::cin >> amplitude;
     std::cout << "Frequency (Hz): ";
@@ -80,6 +87,10 @@ void signal_generate_sinusoidal() {
     std::cin >> duration;
     std::cout << "Sample rate (Hz): ";
     std::cin >> sampleRate;
+
+    if(!sine){                   //adjusts to create cos
+        phase += 90;
+    }
 
     int samples_number = static_cast<int>(sampleRate * duration);
 
@@ -94,7 +105,7 @@ void signal_generate_sinusoidal() {
 
     using namespace matplot;
     plot(time, signal);
-    title("Wygenerowany sygnał sinusoidalny");
+    title(sine ? "Wygenerowany sygnał sinusoidalny" : "Wygenerowany sygnał cosinusoidalny");
     xlabel("Czas (s)");
     ylabel("Amplituda");
     show();
