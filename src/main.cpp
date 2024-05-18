@@ -2,6 +2,7 @@
 #include <matplot/matplot.h>
 #include <set>
 #include <cmath>
+#include <vector>
 #include "AudioFile.h"
 
 
@@ -52,11 +53,87 @@ void signal_visualization(){
     ylabel("Amplituda");
     show();
 
-
+    return 0;
 }
 
+void signal_generate_sinusoidal()
+{
+    double amplitude, frequency, phase, duration;  
+    int sampleRate;  
 
+    std::cout<<"Amplitude: ";
+    std::cin>>amplitude;
+    std::cout<<endl<<"Frequency (Hz): ";
+    std::cin>>fraquency;
+    std::cout<<endl<<"Phase (in degrees): ";
+    std::cin>>phase;
+    std::cout<<endl<<"Duration (s): ";
+    std::cin>>duration;
+    std::cout<<endl<<"Sample rate (Hz): ";
+    std::cin>>sampleRate;
 
+    int samples_number = static_cast<int>(sampleRate * duration);
+    
+    //utworzenie wektorów - oś czasu i sygnały
+    std::vector<double> time(samples_number);
+    std::vector<double> signal(samples_number);
+
+    for (int i = 0; i < samples_number; ++i) {
+        time[i] = i / static_cast<double>(sampleRate);
+        signal[i] = amplitude * std::sin(2 * M_PI * frequency * time[i] + phase);
+    }
+
+    using namespace matplot;
+    plot(time, signal);
+    title("Wygenerowany sygnał sinusoidalny");
+    xlabel("Czas (s)");
+    ylabel("Amplituda");
+    show();
+
+    return 0;
+}
+
+void signal_generate_square_wave()
+{
+    double amplitude, period, duration, duty_cycle;
+    int sampleRate;
+
+    std::cout<<"Amplitude: ";
+    std::cin>>amplitude;
+    std::cout<<endl<<"Period (s): ";
+    std::cin>>fraquency;
+    std::cout<<endl<<"Duty cycle (%): ";
+    std::cin>>phase;
+    std::cout<<endl<<"Duration (s): ";
+    std::cin>>duration;
+    std::cout<<endl<<"Sample rate (Hz): ";
+    std::cin>>sampleRate;
+
+    int samples_number = static_cast<int>(sampleRate * duration);
+    
+    //utworzenie wektorów - oś czasu i sygnały
+    std::vector<double> time(samples_number);
+    std::vector<double> signal(samples_number);
+
+    for (int i = 0; i < samples_number; ++i) {
+        time[i] = i / static_cast<double>(sampleRate);
+        if (fmod(time[i], period) < dutyCycle * period) {
+            signal[i] = amplitude;
+        } else {
+            signal[i] = 0.0; 
+        }
+    }
+
+    using namespace matplot;
+    plot(time, signal);
+    title("Wygenerowany sygnał prostokątny");
+    xlabel("Czas (s)");
+    ylabel("Amplituda");
+    ylim({-0.2, amplitude+0.2});
+    show();
+
+    return 0;
+}
 
 
 namespace py = pybind11;
@@ -87,6 +164,14 @@ PYBIND11_MODULE(_core, m) {
 
      m.def("signal_visualization", &signal_visualization, R"pbdoc(
         Visualizes the signal with matplot library
+    )pbdoc");
+
+    m.def("signal_generate_sinusoidal", &signal_generate_sinusoidal,R"pbdoc(
+        Generates sinusoidal signal with matplot library
+    )pbdoc");
+
+    m.def("signal_generate_square_wave", &signal_generate_square_wave,R"pbdoc(
+        Generates square signal with matplot library
     )pbdoc");
 
 #ifdef VERSION_INFO
