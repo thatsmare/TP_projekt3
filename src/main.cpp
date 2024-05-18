@@ -89,7 +89,7 @@ void signal_generate_sinusoidal() {
 
     for (int i = 0; i < samples_number; ++i) {
         time[i] = i / static_cast<double>(sampleRate);
-        signal[i] = amplitude * std::sin(2 * M_PI * frequency * time[i] + phase);
+        signal[i] = amplitude * std::sin(2 * M_PI * frequency * time[i] + phase*M_PI/180.0); // aplitude x sin(2pi x f x time(i) + phase(changed to radians))
     }
 
     using namespace matplot;
