@@ -34,9 +34,23 @@ void signal_visualization(){
 
     audiosample.load(file_location);
 
+    //częstotliwość próbkowania
     int sampleRate = audiosample.getSampleRate();
+    std::vector<std::vector<double>> sample = audiosample.samples;
+
+    //utworzenie osi czasu dla próbek
+    size_t sample_number = sample[0].size();
+    std::vector<double> time(sample_number);
+    for (size_t i = 0; i < sample_number; ++i) 
+        time[i] = static_cast<double>(i) / sampleRate;
 
     using namespace matplot;
+    figure();
+    plot(time, samples[0]);
+    title("Wizualizacja sygnału audio");
+    xlabel("Czas");
+    ylabel("Amplituda");
+    show();
 
 
 }
