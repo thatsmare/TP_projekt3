@@ -1,7 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <matplot/matplot.h>
 #include <set>
-#include <cmath>
+#include <math.h>
 #include <vector>
 #include <iostream>
 #include "AudioFile.h"
@@ -114,6 +114,8 @@ void signal_generate_square_wave() {
     std::cin >> duration;
     std::cout << "Sample rate (Hz): ";
     std::cin >> sampleRate;
+
+    duty_cycle /= 100;      //changes percentages to number
 
     int samples_number = static_cast<int>(sampleRate * duration);
 
