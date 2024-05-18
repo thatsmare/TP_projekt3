@@ -32,3 +32,10 @@ add_subdirectory(matplotplusplus)
 target_link_libraries(_core PUBLIC matplot)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AudioFile)
+
+#MUST ADJUST to opencv location
+set(OpenCV_DIR "C:/Program Files/opencv/build")       #CHANGE HERE !!!!!!!!
+find_package(OpenCV REQUIRED)
+
+target_include_directories(_core PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(_core PRIVATE ${OpenCV_LIBS})

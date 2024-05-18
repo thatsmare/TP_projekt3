@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "AudioFile.h"
+#include <opencv2/opencv.hpp>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -204,6 +205,63 @@ void saw_wave_generate(){
 
 }
 
+int twod_filter(){
+    std::string file_path; //image location
+    std::cout<< "What's the image's location?: " << std::endl;
+    std::cin  >> file_path;
+    
+    file_path = "C:/Users/marty/Documents/projects/tp_projekt3/mayo.jpg";   //test
+
+    cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
+
+      if (image.empty()) {                              //checks if loaded
+        std::cerr << "Image not found" << std::endl;
+        return -1;
+    }
+    int kernel_size=0;
+    while(kernel_size % 2 != 1){
+        std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
+        std::cin >> kernel_size;
+    }
+
+    std::vector<std::vector<int>> kernel(kernel_size, std::vector<int>(kernel_size)); //kernel vector (2D table) outer->row, inner->column
+
+     for (int r = 0; r < kernel_size; ++r) {            //r-row
+        for (int c = 0; c < kernel_size; ++c) {         //c-column
+            kernel[r][c] = 1;
+        }
+    }
+
+    std::vector<std::vector<int>> image_ext(image.rows + 2, std::vector<int>(image.cols + 2)); //basically adds two rows and columns so i can multiply without complications
+
+    for (int y = 1; y < image.rows + 1; y++) {                  //copies the middle
+        for (int x = 1; x < image.cols + 1; x++) {
+             cv::Vec3b& pixel = image.at<cv::Vec3b>(y-1, x-1);
+            image_ext[y][x] = pixel[0];
+        }
+    }
+    //frames
+    
+
+
+    
+    /* for (int y = 0; y < image.rows; y++) {
+        for (int x = 0; x < image.cols; x++) {
+             cv::Vec3b& pixel = image.at<cv::Vec3b>(y, x);
+            
+            pixel[0];               //blue, green, red
+            pixel[1];
+            pixel[2];
+
+          
+        }
+    }
+    */
+
+
+}
+
+
 namespace py = pybind11;
 
 PYBIND11_MODULE(_core, m) {
@@ -245,6 +303,10 @@ PYBIND11_MODULE(_core, m) {
 
      m.def("saw_wave_generate", &saw_wave_generate, R"pbdoc(
         Generates sawtooth signal with matplot library
+    )pbdoc");
+
+     m.def("twod_filter", &twod_filter, R"pbdoc(
+        1D filter function with opencv, puts an image through a filter, outputs the filtered image
     )pbdoc");
 
 
