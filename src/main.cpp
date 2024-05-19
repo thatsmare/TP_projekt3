@@ -15,7 +15,6 @@
 #define NOMINMAX
 #endif
 
-// Define M_PI if not defined
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -35,12 +34,9 @@ int multiply(int i, int j) {
     return 0;
 }
 
-void file_location_in() {
-    // Function implementation here
-}
 
 void signal_visualization() {
-    AudioFile<double> audiosample;
+/*    AudioFile<double> audiosample;
 
     std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
 
@@ -66,6 +62,7 @@ void signal_visualization() {
     xlabel("Czas");
     ylabel("Amplituda");
     show();
+    */
 }
 
 void signal_generate_sinusoidal() {
@@ -242,7 +239,31 @@ int twod_filter(){
         }
     }
     //frames
-    
+    for(int i = 0; i != image.rows + 2; i = image.rows+2){
+        for(int col = 1; col < image.cols+2; ++col){
+             if(i == 0){
+                cv::Vec3b& pixel = image.at<cv::Vec3b>(i+1 , col);
+             }
+             else {
+                cv::Vec3b& pixel = image.at<cv::Vec3b>(i-1 , col);
+             }
+            image_ext[i][col]= pixel[0]
+        }
+    }
+      for(int i = 0; i != image.cols + 2; i = image.cols+2){
+        for(int row = 0; row <= image.rows+2; ++row){
+             if(i == 0){
+                cv::Vec3b& pixel = image.at<cv::Vec3b>(row , i+1);
+             }
+             else {
+                cv::Vec3b& pixel = image.at<cv::Vec3b>(row , i-1);
+             }
+            image_ext[row][i]= pixel[0]
+        }
+    }
+    //end of making frames
+
+
 
 
     
