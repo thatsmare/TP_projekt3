@@ -334,6 +334,10 @@ PYBIND11_MODULE(_core, m) {
         1D filter function with opencv, puts an image through a filter, outputs the filtered image
     )pbdoc");
 
+    m.def("bilinear_interpolation", &bilinear_interpolation, R"pbdoc(
+        Bilinear interpolation of an image
+        )pbdoc");
+
 
 
 #ifdef VERSION_INFO
