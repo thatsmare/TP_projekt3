@@ -270,6 +270,25 @@ int twod_filter(){
         */
     }
 
+void bilinear_interpolation()
+{
+    std::string file_path; //image location
+    std::cout<< "What's the image's location?: " << std::endl;
+    std::cin  >> file_path;
+
+      cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
+
+      if (image.empty()) {                              //checks if loaded
+        std::cerr << "Image not found" << std::endl;
+        return -1;
+    }
+
+    int old_width, old_height;  //old dimensions of the image
+    int new_width, new_height;
+
+    
+}
+
 
 namespace py = pybind11;
 
@@ -317,6 +336,10 @@ PYBIND11_MODULE(_core, m) {
     m.def("twod_filter", &twod_filter, R"pbdoc(
         2d filtration
     )pbdoc");
+
+    m.def("bilinear_interpolation", &bilinear_interpolation, R"pbdoc(
+        Bilinear interpolation of an image
+        )pbdoc");
 
 
 
