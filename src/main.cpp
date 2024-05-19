@@ -4,6 +4,7 @@
 #include <math.h>
 #include <vector>
 #include <iostream>
+#include <string> 
 #include "AudioFile.h"
 #include <opencv2/opencv.hpp>
 
@@ -82,7 +83,7 @@ void signal_generate_sinusoidal() {
     std::cin >> amplitude;
     std::cout << "Frequency (Hz): ";
     std::cin >> frequency;
-    std::cout << "Phase (in degrees): ";
+    std::cout << "Phase (rad): ";
     std::cin >> phase;
     std::cout << "Duration (s): ";
     std::cin >> duration;
