@@ -230,58 +230,26 @@ int twod_filter(){
         }
     }
 
-    std::vector<std::vector<int>> image_ext(image.rows + 2, std::vector<int>(image.cols + 2)); //basically adds two rows and columns so i can multiply without complications
+    int add_frame_size = kernel_size / 2;       //https://docs.opencv.org/4.8.0/dc/da3/tutorial_copyMakeBorder.html
 
-    for (int y = 1; y < image.rows + 1; y++) {                  //copies the middle
-        for (int x = 1; x < image.cols + 1; x++) {
-             cv::Vec3b& pixel = image.at<cv::Vec3b>(y-1, x-1);
-            image_ext[y][x] = pixel[0];
-        }
-    }
-    //frames
-    for(int i = 0; i != image.rows + 2; i = image.rows+2){
-        for(int col = 1; col < image.cols+2; ++col){
-             if(i == 0){
-                cv::Vec3b& pixel = image.at<cv::Vec3b>(i+1 , col);
-             }
-             else {
-                cv::Vec3b& pixel = image.at<cv::Vec3b>(i-1 , col);
-             }
-            image_ext[i][col]= pixel[0]
-        }
-    }
-      for(int i = 0; i != image.cols + 2; i = image.cols+2){
-        for(int row = 0; row <= image.rows+2; ++row){
-             if(i == 0){
-                cv::Vec3b& pixel = image.at<cv::Vec3b>(row , i+1);
-             }
-             else {
-                cv::Vec3b& pixel = image.at<cv::Vec3b>(row , i-1);
-             }
-            image_ext[row][i]= pixel[0]
-        }
-    }
-    //end of making frames
+   cv::Mat framed_image;
 
-
-
-
+    cv::copyMakeBorder (image, framed_image, add_frame_size, add_frame_size, add_frame_size, add_frame_size, cv::BORDER_REPLICATE);
     
-    /* for (int y = 0; y < image.rows; y++) {
-        for (int x = 0; x < image.cols; x++) {
-             cv::Vec3b& pixel = image.at<cv::Vec3b>(y, x);
-            
-            pixel[0];               //blue, green, red
-            pixel[1];
-            pixel[2];
+    cv::imwrite("outpit_img.jpg", framed_image);  //saves extended img
 
-          
+    //filtration aka multiplication of every element of the matrixes
+    for(int img_rows = add_frame_size; img_rows < framed_image.rows + add_frame_size; ++img_rows)              //https://www.youtube.com/watch?v=S4z-C-96xfU
+        for(int img_cols = add_frame_size; img_cols < framed_image.cols + add_frame_size; ++img_cols){
+            for(int kernel_y = 0; kernel_y < kernel_size; kernel_y++){
+                for(int kernel_x = 0; kernel_x < kernel_size; kernel_x++){
+                    cv::Vec3b pixel = framed_image.at<cv::Vec3b>(img_rows + kernel_y,img_rows + kernel_x);
+
+                }
+            }
+
         }
     }
-    */
-
-
-}
 
 
 namespace py = pybind11;
