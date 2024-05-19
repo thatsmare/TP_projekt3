@@ -79,15 +79,15 @@ void signal_generate_sinusoidal() {
     if(decision == 'Y' || decision == 'y'){
         sine = false;
     }
-    std::cout << "Amplitude: ";
+    std::cout << "Amplitude [unit]: ";
     std::cin >> amplitude;
-    std::cout << "Frequency (Hz): ";
+    std::cout << "Frequency [Hz]: ";
     std::cin >> frequency;
-    std::cout << "Phase (rad): ";
+    std::cout << "Phase [degrees]: ";
     std::cin >> phase;
-    std::cout << "Duration (s): ";
+    std::cout << "Duration [s]: ";
     std::cin >> duration;
-    std::cout << "Sample rate (Hz): ";
+    std::cout << "Sample rate [Hz]: ";
     std::cin >> sampleRate;
 
     if(!sine){                   //adjusts to create cos
@@ -117,15 +117,15 @@ void signal_generate_square_wave() {
     double amplitude, period, duration, duty_cycle;
     int sampleRate;
 
-    std::cout << "Amplitude: ";
+    std::cout << "Amplitude [unit]: ";
     std::cin >> amplitude;
-    std::cout << "Period (s): ";
+    std::cout << "Period [s]: ";
     std::cin >> period;
-    std::cout << "Duty cycle (%): ";
+    std::cout << "Duty cycle [%]: ";
     std::cin >> duty_cycle;
-    std::cout << "Duration (s): ";
+    std::cout << "Duration [s]: ";
     std::cin >> duration;
-    std::cout << "Sample rate (Hz): ";
+    std::cout << "Sample rate [Hz]: ";
     std::cin >> sampleRate;
 
     duty_cycle /= 100;      //changes percentages to number
