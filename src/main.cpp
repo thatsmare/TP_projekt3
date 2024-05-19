@@ -67,7 +67,7 @@ void signal_visualization() {
 
 void signal_generate_sinusoidal(double amplitude, double frequency, double phase, double duration, int sampleRate) { //frequency [Hz], phase [degrees], duration [s], sampleRate [Hz]
 
-    if (amplidude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration) {
+    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration) {
         
     int samples_number = static_cast<int>(sampleRate * duration);
 
@@ -186,6 +186,8 @@ int twod_filter(){
         std::cerr << "Image not found" << std::endl;
         return -1;
     }
+    return 0;
+}
     /*
     
     int kernel_size=0;
@@ -238,10 +240,9 @@ int twod_filter(){
         cv::imshow("Filtered Image", final_image);
         cv::waitKey(0);
         */
-    }
+    
 
-int bilinear_interpolation()
-{
+int bilinear_interpolation(){
     std::string file_path; //image location
     std::cout<< "What's the image's location?: " << std::endl;
     std::cin  >> file_path;
@@ -256,7 +257,7 @@ int bilinear_interpolation()
     int old_width, old_height;  //old dimensions of the image
     int new_width, new_height;
 
-    
+    return 0;
 }
 
 
