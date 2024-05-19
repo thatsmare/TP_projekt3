@@ -65,32 +65,10 @@ void signal_visualization() {
 
 }
 
-void signal_generate_sinusoidal() {
-    double amplitude, frequency, phase, duration;
-    int sampleRate;
-    bool sine = true;
-    char decision;
+void signal_generate_sinusoidal(double amplitude, double frequency, double phase, double duration, int sampleRate) { //frequency [Hz], phase [degrees], duration [s], sampleRate [Hz]
 
-    std::cout << "Change to cos? (Y/N)" << std::endl;
-    std::cin >> decision;
-    if(decision == 'Y' || decision == 'y'){
-        sine = false;
-    }
-    std::cout << "Amplitude [unit]: ";
-    std::cin >> amplitude;
-    std::cout << "Frequency [Hz]: ";
-    std::cin >> frequency;
-    std::cout << "Phase [degrees]: ";
-    std::cin >> phase;
-    std::cout << "Duration [s]: ";
-    std::cin >> duration;
-    std::cout << "Sample rate [Hz]: ";
-    std::cin >> sampleRate;
-
-    if(!sine){                   //adjusts to create cos
-        phase += 90;
-    }
-
+    if (amplidude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration) {
+        
     int samples_number = static_cast<int>(sampleRate * duration);
 
     // Utworzenie wektorów - oś czasu i sygnały
@@ -104,27 +82,17 @@ void signal_generate_sinusoidal() {
 
     using namespace matplot;
     plot(time, signal);
-    title(sine ? "Wygenerowany sygnał sinusoidalny" : "Wygenerowany sygnał cosinusoidalny");
+    title("Wygenerowany sygnał sinusoidalny");
     xlabel("Czas (s)");
     ylabel("Amplituda");
+    ylim({-0.2 - amplitude, amplitude + 0.2});   
     show();
+    }
+    else std::cout<<"Function parameters are incorrect";
 }
 
-void signal_generate_square_wave() {
-    double amplitude, period, duration, duty_cycle;
-    int sampleRate;
-
-    std::cout << "Amplitude [unit]: ";
-    std::cin >> amplitude;
-    std::cout << "Period [s]: ";
-    std::cin >> period;
-    std::cout << "Duty cycle [%]: ";
-    std::cin >> duty_cycle;
-    std::cout << "Duration [s]: ";
-    std::cin >> duration;
-    std::cout << "Sample rate [Hz]: ";
-    std::cin >> sampleRate;
-
+void signal_generate_square_wave(double amplitude, double period, double duration, double duty_cycle, int sampleRate) { //period [s], duration [s], duty_cycle [%], sampleRate [Hz]
+    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && 1/sampleRate < duration) {
     duty_cycle /= 100;      //changes percentages to number
 
     int samples_number = static_cast<int>(sampleRate * duration);
@@ -149,6 +117,8 @@ void signal_generate_square_wave() {
     ylabel("Amplituda");
     ylim({-0.2, amplitude + 0.2});
     show();
+    }
+    else std::cout<<"Function parameters are incorrect";
 }
 
 void saw_wave_generate(){
