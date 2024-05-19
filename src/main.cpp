@@ -257,6 +257,14 @@ int twod_filter(){
                 std::min(std::max(value[2], 0), 255)
             );
         }
+
+         if (!cv::imwrite("output_img.jpg", final_image)) {
+        std::cerr << "Error saving the image" << std::endl;
+        return -1;
+        }
+
+        cv::imshow("Filtered Image", final_image);
+
     }
 
 
