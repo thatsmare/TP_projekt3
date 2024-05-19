@@ -245,14 +245,17 @@ int twod_filter(){
             int value[3] = {0,0,0};
             for(int kernel_y = 0; kernel_y < kernel_size; kernel_y++){
                 for(int kernel_x = 0; kernel_x < kernel_size; kernel_x++){
-                    cv::Vec3b pixel = framed_image.at<cv::Vec3b>(img_rows + kernel_y,img_rows + kernel_x);
-                    value[0] += pixel[0] * kernel[kernel_y][kernel_x];
+                    cv::Vec3b pixel = framed_image.at<cv::Vec3b>(img_rows + kernel_y - add_frame_size, img_cols + kernel_x - add_frame_size);
+                    value[0] += pixel[0] * kernel[kernel_y][kernel_x];              //different colors :)
                     value[1] += pixel[1] * kernel[kernel_y][kernel_x];
                     value[2] += pixel[2] * kernel[kernel_y][kernel_x];
                 }
             }
-            final_image[img_rows - add_frame_size][img_cols - add_frame_size] = value;  
-
+           final_image.at<cv::Vec3b>(img_rows - add_frame_size, img_cols - add_frame_size) = cv::Vec3b(         //colors are from (0-255)
+                std::min(std::max(value[0], 0), 255),
+                std::min(std::max(value[1], 0), 255),
+                std::min(std::max(value[2], 0), 255)
+            );
         }
     }
 
