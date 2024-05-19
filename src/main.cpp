@@ -36,7 +36,7 @@ int multiply(int i, int j) {
 
 
 void signal_visualization() {
-/*    AudioFile<double> audiosample;
+    AudioFile<double> audiosample;
 
     std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
 
@@ -62,7 +62,7 @@ void signal_visualization() {
     xlabel("Czas");
     ylabel("Amplituda");
     show();
-    */
+
 }
 
 void signal_generate_sinusoidal() {
@@ -236,17 +236,22 @@ int twod_filter(){
 
     cv::copyMakeBorder (image, framed_image, add_frame_size, add_frame_size, add_frame_size, add_frame_size, cv::BORDER_REPLICATE);
     
-    cv::imwrite("outpit_img.jpg", framed_image);  //saves extended img
+    // cv::imwrite("outpit_img.jpg", framed_image);  //saves extended img
+    cv::Mat final_image = image.clone();
 
     //filtration aka multiplication of every element of the matrixes
-    for(int img_rows = add_frame_size; img_rows < framed_image.rows + add_frame_size; ++img_rows)              //https://www.youtube.com/watch?v=S4z-C-96xfU
-        for(int img_cols = add_frame_size; img_cols < framed_image.cols + add_frame_size; ++img_cols){
+    for(int img_rows = add_frame_size; img_rows < image.rows + add_frame_size; ++img_rows)              //https://www.youtube.com/watch?v=S4z-C-96xfU
+        for(int img_cols = add_frame_size; img_cols < image.cols + add_frame_size; ++img_cols){
+            int value[3] = {0,0,0};
             for(int kernel_y = 0; kernel_y < kernel_size; kernel_y++){
                 for(int kernel_x = 0; kernel_x < kernel_size; kernel_x++){
                     cv::Vec3b pixel = framed_image.at<cv::Vec3b>(img_rows + kernel_y,img_rows + kernel_x);
-
+                    value[0] += pixel[0] * kernel[kernel_y][kernel_x];
+                    value[1] += pixel[1] * kernel[kernel_y][kernel_x];
+                    value[2] += pixel[2] * kernel[kernel_y][kernel_x];
                 }
             }
+            final_image[img_rows - add_frame_size][img_cols - add_frame_size] = value;  
 
         }
     }
