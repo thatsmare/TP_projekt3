@@ -270,7 +270,7 @@ int twod_filter(){
         */
     }
 
-void bilinear_interpolation()
+int bilinear_interpolation()
 {
     std::string file_path; //image location
     std::cout<< "What's the image's location?: " << std::endl;
