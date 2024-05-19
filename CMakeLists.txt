@@ -34,8 +34,15 @@ target_link_libraries(_core PUBLIC matplot)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AudioFile)
 
 #MUST ADJUST to opencv location
-set(OpenCV_DIR "C:/Program Files/opencv/build")       #CHANGE HERE !!!!!!!!
+# Find OpenCV package
 find_package(OpenCV REQUIRED)
+
+# Include OpenCV headers
 include_directories(${OpenCV_INCLUDE_DIRS})
 
+# Adjust OpenCV location if necessary
+# set(OpenCV_DIR "C:/Program Files/opencv/build")  # Uncomment and modify if needed
+
+# Link OpenCV libraries to your target
 target_link_libraries(_core PRIVATE ${OpenCV_LIBS})
+
