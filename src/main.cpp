@@ -216,6 +216,8 @@ int twod_filter(){
         std::cerr << "Image not found" << std::endl;
         return -1;
     }
+    /*
+    
     int kernel_size=0;
     while(kernel_size % 2 != 1){
         std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
@@ -264,7 +266,8 @@ int twod_filter(){
         }
 
         cv::imshow("Filtered Image", final_image);
-
+        cv::waitKey(0);
+        */
     }
 
 
@@ -311,9 +314,11 @@ PYBIND11_MODULE(_core, m) {
         Generates sawtooth signal with matplot library
     )pbdoc");
 
-     m.def("twod_filter", &twod_filter, R"pbdoc(
-        1D filter function with opencv, puts an image through a filter, outputs the filtered image
+    m.def("twod_filter", &twod_filter, R"pbdoc(
+        2d filtration
     )pbdoc");
+
+
 
 
 
