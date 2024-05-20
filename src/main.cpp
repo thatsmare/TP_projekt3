@@ -124,11 +124,11 @@ void signal_generate_square_wave(double amplitude, double period, double duratio
 void saw_wave_generate(){
     double amplitude, frequency, duration, min_value, phase, sample_rate, fourier_approx;
     std::string unit;
-    int harmonics = 30; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
+    int harmonics = 100; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
 
     std::cout << "Unit (on y axis): " << std::endl;
     std::cin >> unit;
-    std::cout << "Amplitude [unit]:" << std::endl;
+    std::cout << "Amplitude [" << unit <<"]:" << std::endl;
     std::cin >> amplitude;
     std::cout << "Frequency [Hz]:" << std::endl;
     std::cin >> frequency;
@@ -136,7 +136,7 @@ void saw_wave_generate(){
     std::cin >> phase;
     std::cout << "Signal duration [s]: " << std::endl;
     std::cin >> duration;
-    std::cout << "Minimal Value [unit]: " << std::endl;
+    std::cout << "Minimal Value [" << unit <<"]: " << std::endl;
     std::cin >> min_value;
     std::cout << "Sample Rate [Hz]: " << std::endl;
     std::cin >> sample_rate;
@@ -151,7 +151,7 @@ void saw_wave_generate(){
             time[t] = t/sample_rate;
             fourier_approx =0;
             for(int i =1; i <= harmonics; i++){
-            fourier_approx +=  pow(-1, i)*sin(2*(M_PI*frequency*time[t]*i + phase))/i;
+            fourier_approx +=  pow(-1, i)*sin(2 * M_PI * frequency * i * time[t] + phase)/i;
             }
             signal[t]= amplitude*(0.5 - (1/M_PI)*fourier_approx) + min_value; //from wikipedia + min_value https://en.wikipedia.org/wiki/Sawtooth_wave
             if(signal[t] > min_value + amplitude){      //better accuracy
