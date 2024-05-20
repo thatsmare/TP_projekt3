@@ -55,3 +55,36 @@ Minimal Value [db]:
 5
 Sample Rate [Hz]:
 400
+
+saw_wave_generate3:
+>>> scikit_build_example.saw_wave_generate()
+Unit (on y axis):
+dB
+Amplitude [dB]:
+10
+Frequency [Hz]:
+1
+phase (degrees):
+90
+Signal duration [s]:
+10
+Minimal Value [dB]:
+0
+Sample Rate [Hz]:
+400
+Press ENTER to continue...
+>>> scikit_build_example.saw_wave_generate()
+Unit (on y axis):
+dB
+Amplitude [dB]:
+10
+Frequency [Hz]:
+1
+phase (degrees):
+40
+Signal duration [s]:
+10
+Minimal Value [dB]:
+5
+Sample Rate [Hz]:
+4000
