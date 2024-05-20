@@ -173,16 +173,6 @@ void saw_wave_generate(){
     ylabel("Amplituda [" + unit + "]");
     ylim({min_value - 1, amplitude + min_value + 1});
     show();
-
-    
-    audiofile<double>::AudioFileOut file;
-    file.setAudioBufferSize(signal.size());
-    file.setSampleRate(sample_rate);
-    file.setBitDepth(16); 
-    file.setNumChannels(1); 
-    file.setAudioBuffer(signal);
-    file.save("sawtooth.wav");
-
 }
 
 int twod_filter(){
