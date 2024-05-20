@@ -123,7 +123,7 @@ void signal_generate_square_wave(double amplitude, double period, double duratio
 }
 
 void saw_wave_generate(double amplitude, double frequency, double duration, double min_value, double phase, double sample_rate){
-    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration && sampleRate > 0) {
+    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration && sample_rate > 0) {
     double fourier_approx;
     std::string unit;
     int harmonics = 30; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
@@ -178,8 +178,8 @@ int twod_filter(){
     }
     return 0;
 }
-    /*
     
+    /*
     int kernel_size=0;
     while(kernel_size % 2 != 1){
         std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
@@ -230,6 +230,7 @@ int twod_filter(){
         cv::imshow("Filtered Image", final_image);
         cv::waitKey(0);
         */
+        
     
 
 int bilinear_interpolation(){
@@ -261,9 +262,9 @@ int bilinear_interpolation(){
             x = i*ratiox;
             y = j*ratioy;
         }
-    } */
+    } 
 
-    return 0;
+    return 0;*/
 }
 
 
