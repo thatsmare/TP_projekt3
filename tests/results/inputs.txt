@@ -88,3 +88,21 @@ Minimal Value [dB]:
 5
 Sample Rate [Hz]:
 4000
+
+
+oned_filtering1:
+>>> scikit_build_example.oned_filtering()
+Location of the file:
+C:\Users\marty\Downloads\wav_mono_16bit_44100.wav  
+Kernel size:
+3
+Do you want to modify the kernel? (y/n):
+y
+Kernel[0] = 1
+Kernel[1] = 2
+Kernel[2] = 3
+Kernel(,0,1,2)
+0
+>>> scikit_build_example.signal_visualization()
+Location of the file to visualize:
+post_filtering.wav

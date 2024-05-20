@@ -264,8 +264,7 @@ int bilinear_interpolation(){
 int oned_filtering(){
   AudioFile<double> audiosample;
 
-   std::string file_location; // = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
-
+   std::string file_location; // = "C:\Users\marty\Downloads\wav_mono_16bit_44100.wav"
     std::cout << "Location of the file:" << std::endl;     //choose path 
     std::cin >> file_location;
 
@@ -295,7 +294,29 @@ int oned_filtering(){
         std::cout << "Input an integer, please" << std::endl;
     }
 
+    char decision = '0';
+    while(decision != 'y' && decision != 'Y' && decision != 'n' && decision != 'N'){
+    std::cout << "Do you want to modify the kernel? (y/n):" << std::endl;
+    std::cin >> decision;
+    }
     std::vector<double> kernel(kernel_size,1);
+
+    if(decision == 'y' || decision == 'Y'){
+        for(int i = 0; i< kernel_size; i++){
+            std::cout << "Kernel[" << i <<"] = ";
+            while(!(std::cin >>  kernel[i])){
+                 std::cin.clear(); // Clear input stream
+                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');};
+        }
+        std::cout << "Kernel(";
+        for(int i = 0; i< kernel_size; i++){
+            std::cout << ',' << i;
+        }
+        std::cout << ')' << std::endl;
+    }
+    else{
+    kernel.assign(kernel_size,1);
+    }
     std::vector<double> output(numSamples);
 
     for(int i = 0; i< audio.size(); i++){               //https://www.youtube.com/watch?v=yd_j_zdLDWs

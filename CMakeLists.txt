@@ -9,9 +9,6 @@ project(
   VERSION ${SKBUILD_PROJECT_VERSION}
   LANGUAGES CXX)
 
-# Set the CMake prefix path to find pybind11
-set(CMAKE_PREFIX_PATH "C:/Users/marty/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/LocalCache/local-packages/Python312/site-packages/pybind11/share/cmake/pybind11")
-
 # Find the module development requirements (requires FindPython from 3.17 or
 # scikit-build-core's built-in backport)
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
@@ -28,21 +25,9 @@ target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
 # The install directory is the output (wheel) directory
 install(TARGETS _core DESTINATION scikit_build_example)
 
-# Matplot library
+
+#matplot library
 add_subdirectory(matplotplusplus)
+
 target_link_libraries(_core PUBLIC matplot)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AudioFile)
-
-#OpenCV package
-find_package(OpenCV REQUIRED)
-
-# OpenCV headers
-include_directories(${OpenCV_INCLUDE_DIRS})
-
-# Adjust OpenCV location if necessary
-# set(OpenCV_DIR "C:/Program Files/opencv/build")  # Uncomment and modify if needed
-
-# Link OpenCV libraries to your target
-target_link_libraries(_core PRIVATE ${OpenCV_LIBS})
 
