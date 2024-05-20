@@ -21,3 +21,37 @@ signal_generate_sinusoidal2:
 
 signal_generate_square_wave1:
 >>> scikit_build_example.signal_generate_square_wave(20,50,100,50,100) 
+
+saw_wave_generate1:
+>>> scikit_build_example.saw_wave_generate()                          
+Unit (on y axis):
+dB
+Amplitude [unit]:
+10
+Frequency [Hz]:
+2
+phase (degrees):
+0
+Signal duration [s]:
+10
+Minimal Value [unit]:
+0
+Sample Rate [Hz]:
+400
+
+saw_wave_generate2:
+>>> scikit_build_example.saw_wave_generate()
+Unit (on y axis):
+db
+Amplitude [db]:
+10
+Frequency [Hz]:
+1
+phase (degrees):
+0
+Signal duration [s]:
+10
+Minimal Value [db]:
+5
+Sample Rate [Hz]:
+400
