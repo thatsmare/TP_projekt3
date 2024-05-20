@@ -65,9 +65,9 @@ void signal_visualization() {
 
 }
 
-void signal_generate_sinusoidal(double amplitude, double frequency, double phase, double duration, int sampleRate) { //frequency [Hz], phase [degrees], duration [s], sampleRate [Hz]
+void signal_generate_sinusoidal(double amplitude, double frequency, double phase, double duration, double sampleRate) { //frequency [Hz], phase [degrees], duration [s], sampleRate [Hz]
 
-    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration) {
+    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration && sampleRate > 0) {
         
     int samples_number = static_cast<int>(sampleRate * duration);
 
@@ -91,8 +91,8 @@ void signal_generate_sinusoidal(double amplitude, double frequency, double phase
     else std::cout<<"Function parameters are incorrect";
 }
 
-void signal_generate_square_wave(double amplitude, double period, double duration, double duty_cycle, int sampleRate) { //period [s], duration [s], duty_cycle [%], sampleRate [Hz]
-    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && 1/sampleRate < duration) {
+void signal_generate_square_wave(double amplitude, double period, double duration, double duty_cycle, double sampleRate) { //period [s], duration [s], duty_cycle [%], sampleRate [Hz]
+    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && 1/sampleRate < duration && sampleRate > 0) {
     duty_cycle /= 100;      //changes percentages to number
 
     int samples_number = static_cast<int>(sampleRate * duration);
@@ -121,25 +121,14 @@ void signal_generate_square_wave(double amplitude, double period, double duratio
     else std::cout<<"Function parameters are incorrect";
 }
 
-void saw_wave_generate(){
-    double amplitude, frequency, duration, min_value, phase, sample_rate, fourier_approx;
+void saw_wave_generate(double amplitude, double frequency, double duration, double min_value, double phase, double sample_rate){
+    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration && sampleRate > 0) {
+    double fourier_approx;
     std::string unit;
     int harmonics = 30; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
 
     std::cout << "Unit (on y axis): " << std::endl;
     std::cin >> unit;
-    std::cout << "Amplitude [unit]:" << std::endl;
-    std::cin >> amplitude;
-    std::cout << "Frequency [Hz]:" << std::endl;
-    std::cin >> frequency;
-     std::cout << "phase (degrees):" << std::endl;
-    std::cin >> phase;
-    std::cout << "Signal duration [s]: " << std::endl;
-    std::cin >> duration;
-    std::cout << "Minimal Value [unit]: " << std::endl;
-    std::cin >> min_value;
-    std::cout << "Sample Rate [Hz]: " << std::endl;
-    std::cin >> sample_rate;
 
         phase *= M_PI/180;      //radians easier to count
         int all_measure_points = static_cast<int>(sample_rate*duration);
@@ -162,15 +151,15 @@ void saw_wave_generate(){
             }
         }
 
-
- using namespace matplot;
+    using namespace matplot;
     plot(time, signal);
     title("Wygenerowany sygnał piłokształtny");
     xlabel("Czas (s)");
     ylabel("Amplituda [" + unit + "]");
     ylim({min_value - 1, amplitude + min_value + 1});
     show();
-
+    }
+    else std::cout<<"Function parameters are incorrect";
 }
 
 int twod_filter(){
