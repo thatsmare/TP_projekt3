@@ -5,7 +5,6 @@
 #include <vector>
 #include <iostream>
 #include <string> 
-#include <cmath>
 #include "AudioFile.h"
 #include <opencv2/opencv.hpp>
 
@@ -66,9 +65,9 @@ void signal_visualization() {
 
 }
 
-void signal_generate_sinusoidal(double amplitude, double frequency, double phase, double duration, double sampleRate) { //frequency [Hz], phase [degrees], duration [s], sampleRate [Hz]
+void signal_generate_sinusoidal(double amplitude, double frequency, double phase, double duration, int sampleRate) { //frequency [Hz], phase [degrees], duration [s], sampleRate [Hz]
 
-    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration && sampleRate > 0) {
+    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration) {
         
     int samples_number = static_cast<int>(sampleRate * duration);
 
@@ -92,8 +91,8 @@ void signal_generate_sinusoidal(double amplitude, double frequency, double phase
     else std::cout<<"Function parameters are incorrect";
 }
 
-void signal_generate_square_wave(double amplitude, double period, double duration, double duty_cycle, double sampleRate) { //period [s], duration [s], duty_cycle [%], sampleRate [Hz]
-    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && 1/sampleRate < duration && sampleRate > 0) {
+void signal_generate_square_wave(double amplitude, double period, double duration, double duty_cycle, int sampleRate) { //period [s], duration [s], duty_cycle [%], sampleRate [Hz]
+    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && 1/sampleRate < duration) {
     duty_cycle /= 100;      //changes percentages to number
 
     int samples_number = static_cast<int>(sampleRate * duration);
@@ -122,14 +121,25 @@ void signal_generate_square_wave(double amplitude, double period, double duratio
     else std::cout<<"Function parameters are incorrect";
 }
 
-void saw_wave_generate(double amplitude, double frequency, double duration, double min_value, double phase, double sample_rate){
-    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration && sample_rate > 0) {
-    double fourier_approx;
+void saw_wave_generate(){
+    double amplitude, frequency, duration, min_value, phase, sample_rate, fourier_approx;
     std::string unit;
     int harmonics = 30; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
 
     std::cout << "Unit (on y axis): " << std::endl;
     std::cin >> unit;
+    std::cout << "Amplitude [unit]:" << std::endl;
+    std::cin >> amplitude;
+    std::cout << "Frequency [Hz]:" << std::endl;
+    std::cin >> frequency;
+     std::cout << "phase (degrees):" << std::endl;
+    std::cin >> phase;
+    std::cout << "Signal duration [s]: " << std::endl;
+    std::cin >> duration;
+    std::cout << "Minimal Value [unit]: " << std::endl;
+    std::cin >> min_value;
+    std::cout << "Sample Rate [Hz]: " << std::endl;
+    std::cin >> sample_rate;
 
         phase *= M_PI/180;      //radians easier to count
         int all_measure_points = static_cast<int>(sample_rate*duration);
@@ -152,19 +162,19 @@ void saw_wave_generate(double amplitude, double frequency, double duration, doub
             }
         }
 
-    using namespace matplot;
+
+ using namespace matplot;
     plot(time, signal);
     title("Wygenerowany sygnał piłokształtny");
     xlabel("Czas (s)");
     ylabel("Amplituda [" + unit + "]");
     ylim({min_value - 1, amplitude + min_value + 1});
     show();
-    }
-    else std::cout<<"Function parameters are incorrect";
+
 }
 
 int twod_filter(){
-    std::string file_path; //image location
+    /*std::string file_path; //image location
     std::cout<< "What's the image's location?: " << std::endl;
     std::cin  >> file_path;
     
@@ -176,10 +186,12 @@ int twod_filter(){
         std::cerr << "Image not found" << std::endl;
         return -1;
     }
-    return 0;
-}
     
+    */
+   return 0;
+}
     /*
+    
     int kernel_size=0;
     while(kernel_size % 2 != 1){
         std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
@@ -230,11 +242,10 @@ int twod_filter(){
         cv::imshow("Filtered Image", final_image);
         cv::waitKey(0);
         */
-        
     
 
 int bilinear_interpolation(){
-    std::string file_path; //image location
+ /*   std::string file_path; //image location
     std::cout<< "What's the image's location?: " << std::endl;
     std::cin  >> file_path;
 
@@ -245,26 +256,10 @@ int bilinear_interpolation(){
         return -1;
     }
 
-    /*int old_width, old_height;  //old dimensions of the image
-    int new_width, new_height;  //new dimensions of the image
-    double ratiox = old_width/new_width;
-    double ratioy = old_height/new_height;
-    dobule x,y; //coordinate dimensions of each pixel
-    double x_int, y_int; //części całkowite liczb
-    double a = modf (x, &x_int);              //współczynniki a i b, na podstawie aggorytm.org interpolacja dwuliniowa
-    double b = modf (y, &y_int);
-
-    //tu ma być siatka z kolejnymi pikselami, i-kolumny, j-wiersze obrazu początkowego
-    for (int j=0; j < old_width, j++)
-    {
-        for (int i=0; i < old_height; i++)
-        {
-            x = i*ratiox;
-            y = j*ratioy;
-        }
-    } 
-
-    return 0;*/
+    int old_width, old_height;  //old dimensions of the image
+    int new_width, new_height;
+    */
+    return 0;
 }
 
 
@@ -318,10 +313,6 @@ PYBIND11_MODULE(_core, m) {
     m.def("bilinear_interpolation", &bilinear_interpolation, R"pbdoc(
         Bilinear interpolation of an image
         )pbdoc");
-
-
-
-
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
