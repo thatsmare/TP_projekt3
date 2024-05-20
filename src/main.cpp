@@ -39,7 +39,7 @@ int multiply(int i, int j) {
 void signal_visualization() {
     AudioFile<double> audiosample;
 
-    std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
+    std::string file_location; // = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
 
     std::cout << "Location of the file to visualize:" << std::endl;     //mozliwosc dobory sciezki do pliku
     std::cin >> file_location;
@@ -174,14 +174,23 @@ void saw_wave_generate(){
     ylim({min_value - 1, amplitude + min_value + 1});
     show();
 
+    
+    audiofile<double>::AudioFileOut file;
+    file.setAudioBufferSize(signal.size());
+    file.setSampleRate(sample_rate);
+    file.setBitDepth(16); 
+    file.setNumChannels(1); 
+    file.setAudioBuffer(signal);
+    file.save("sawtooth.wav");
+
 }
 
 int twod_filter(){
-    std::string file_path; //image location
+  /*  std::string file_path; //image location
     std::cout<< "What's the image's location?: " << std::endl;
     std::cin  >> file_path;
     
-    file_path = "C:/Users/marty/Documents/projects/tp_projekt3/mayo.jpg";   //test
+    //file_path = "C:/Users/marty/Documents/projects/tp_projekt3/mayo.jpg";   //test
 
     cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
 
@@ -189,6 +198,7 @@ int twod_filter(){
         std::cerr << "Image not found" << std::endl;
         return -1;
     }
+    */
     
   /*  int kernel_size=0;
     while(kernel_size % 2 != 1){
@@ -240,6 +250,7 @@ int twod_filter(){
         cv::imshow("Filtered Image", final_image);
         cv::waitKey(0);
     */    
+   return 0;
 }
 
 int bilinear_interpolation(){
@@ -263,7 +274,7 @@ int bilinear_interpolation(){
 int oned_filtering(){
   AudioFile<double> audiosample;
 
-   // std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
+   std::string file_location; // = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
 
     std::cout << "Location of the file:" << std::endl;     //choose path 
     std::cin >> file_location;
@@ -300,18 +311,23 @@ int oned_filtering(){
     for(int i = 0; i< audio.size(); i++){               //https://www.youtube.com/watch?v=yd_j_zdLDWs
         int output_cell = 0;
         for(int j =0; j < kernel_size; j++){
+            if(!((i+j) >audio.size())){
             output_cell += audio[i+j] * kernel[j];
+            }
         }
         output[i] = output_cell;
     }
 
 
     AudioFile<double> post_filtering;                   //saving the audio
-    post_filtering,setAudioBuffer(output);
     post_filtering.setNumChannels(1);
     post_filtering.setSampleRate(audiosample.getSampleRate());          //everything about an audio file https://github.com/adamstark/AudioFile
     post_filtering.setBitDepth(audiosample.getBitDepth());
-    post_filtering.setAudioBufferSize(audiosample.getAudioBufferSize());
+    post_filtering.setNumSamplesPerChannel(numSamples);
+
+    for(int i = 0; i< numSamples; i++){
+        post_filtering.samples[0][i] = output[i];
+    }
     
     std::string post_filtering_loc = "post_filtering.wav";
 
@@ -319,6 +335,7 @@ int oned_filtering(){
         std::cerr << "Error saving the output audio file" << std::endl;
         return 1;
     }
+    return 0;
 }
 
 
@@ -371,6 +388,10 @@ PYBIND11_MODULE(_core, m) {
 
     m.def("bilinear_interpolation", &bilinear_interpolation, R"pbdoc(
         Bilinear interpolation of an image
+        )pbdoc");
+
+    m.def("oned_filtering", &oned_filtering, R"pbdoc(
+        1D filtering of a signal
         )pbdoc");
 
 #ifdef VERSION_INFO
