@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <string> 
+#include <cmath>
 #include "AudioFile.h"
 #include <opencv2/opencv.hpp>
 
@@ -243,8 +244,24 @@ int bilinear_interpolation(){
         return -1;
     }
 
-    int old_width, old_height;  //old dimensions of the image
-    int new_width, new_height;
+    /*int old_width, old_height;  //old dimensions of the image
+    int new_width, new_height;  //new dimensions of the image
+    double ratiox = old_width/new_width;
+    double ratioy = old_height/new_height;
+    dobule x,y; //coordinate dimensions of each pixel
+    double x_int, y_int; //części całkowite liczb
+    double a = modf (x, &x_int);              //współczynniki a i b, na podstawie aggorytm.org interpolacja dwuliniowa
+    double b = modf (y, &y_int);
+
+    //tu ma być siatka z kolejnymi pikselami, i-kolumny, j-wiersze obrazu początkowego
+    for (int j=0; j < old_width, j++)
+    {
+        for (int i=0; i < old_height; i++)
+        {
+            x = i*ratiox;
+            y = j*ratioy;
+        }
+    } */
 
     return 0;
 }
