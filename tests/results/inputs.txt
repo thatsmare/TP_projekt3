@@ -1,0 +1,23 @@
+signal_visualization1.png:
+>>> scikit_build_example.signal_visualization()
+Location of the file to visualize:
+C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav
+
+signal_visualization2.png:
+>>> scikit_build_example.signal_visualization()
+Location of the file to visualize:
+C:\Users\marty\Downloads\wav_mono_16bit_48000.wav  
+
+signal_visualization3.png:
+>>> scikit_build_example.signal_visualization()       
+Location of the file to visualize:
+C:\Users\marty\Downloads\aiff_stereo_16bit_44100.aif  
+
+signal_generate_sinusoidal1:
+>>> scikit_build_example.signal_generate_sinusoidal(10,1,0,10,44100) 
+
+signal_generate_sinusoidal2:
+>>> scikit_build_example.signal_generate_sinusoidal(1,5,45,20,500)  
+
+signal_generate_square_wave1:
+>>> scikit_build_example.signal_generate_square_wave(20,50,100,50,100) 

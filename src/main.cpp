@@ -151,9 +151,9 @@ void saw_wave_generate(){
             time[t] = t/sample_rate;
             fourier_approx =0;
             for(int i =1; i <= harmonics; i++){
-            fourier_approx +=  pow(-1, i)*sin(2*M_PI*frequency*time[t]*i + phase)/i;
+            fourier_approx +=  pow(-1, i)*sin(2*(M_PI*frequency*time[t]*i + phase))/i;
             }
-            signal[t]= amplitude*(0.5 - (1/M_PI)*fourier_approx) + min_value; //from wikipedia + min_value
+            signal[t]= amplitude*(0.5 - (1/M_PI)*fourier_approx) + min_value; //from wikipedia + min_value https://en.wikipedia.org/wiki/Sawtooth_wave
             if(signal[t] > min_value + amplitude){      //better accuracy
                 signal[t] = min_value+amplitude;
             }
