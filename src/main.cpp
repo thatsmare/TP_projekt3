@@ -7,6 +7,7 @@
 #include <string> 
 #include "AudioFile.h"
 #include <opencv2/opencv.hpp>
+#include <algorithm>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -176,7 +177,7 @@ void saw_wave_generate(){
 }
 
 int twod_filter(){
-    /*std::string file_path; //image location
+    std::string file_path; //image location
     std::cout<< "What's the image's location?: " << std::endl;
     std::cin  >> file_path;
     
@@ -189,12 +190,7 @@ int twod_filter(){
         return -1;
     }
     
-    */
-   return 0;
-}
-    /*
-    
-    int kernel_size=0;
+  /*  int kernel_size=0;
     while(kernel_size % 2 != 1){
         std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
         std::cin >> kernel_size;
@@ -231,7 +227,7 @@ int twod_filter(){
             }
            final_image.at<cv::Vec3b>(img_rows - add_frame_size, img_cols - add_frame_size) = cv::Vec3b(         //colors are from (0-255)
                 std::min(std::max(value[0], 0), 255),
-                std::min(std::max(value[1], 0), 255),
+                std::min(std::max(value[1], 0), 255),               //bc colors are from 0 to 255, have to cap them
                 std::min(std::max(value[2], 0), 255)
             );
         }
@@ -243,8 +239,8 @@ int twod_filter(){
 
         cv::imshow("Filtered Image", final_image);
         cv::waitKey(0);
-        */
-    
+    */    
+}
 
 int bilinear_interpolation(){
  /*   std::string file_path; //image location
@@ -262,6 +258,67 @@ int bilinear_interpolation(){
     int new_width, new_height;
     */
     return 0;
+}
+
+int oned_filtering(){
+  AudioFile<double> audiosample;
+
+   // std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
+
+    std::cout << "Location of the file:" << std::endl;     //choose path 
+    std::cin >> file_location;
+
+    if(!audiosample.load(file_location)){
+        std::cerr << "Audio could not be loaded" << std::endl;
+        return 1;
+    }
+
+    if(audiosample.getNumChannels() !=1){
+        std::cout << "1D means only one channel, the provided file contains more" << std::endl;
+        return 1;
+    }
+
+    int numSamples = audiosample.getNumSamplesPerChannel();
+
+    std::vector<double> audio(numSamples); 
+
+    for (int i = 0; i < numSamples; i++)
+    {
+	    audio[i] = audiosample.samples[0][i]; //0 is for channels we have 1
+    }
+    
+    int kernel_size;
+
+    std::cout << "Kernel size: " << std::endl;
+    while(!(std::cin >> kernel_size)){
+        std::cout << "Input an integer, please" << std::endl;
+    }
+
+    std::vector<double> kernel(kernel_size,1);
+    std::vector<double> output(numSamples);
+
+    for(int i = 0; i< audio.size(); i++){               //https://www.youtube.com/watch?v=yd_j_zdLDWs
+        int output_cell = 0;
+        for(int j =0; j < kernel_size; j++){
+            output_cell += audio[i+j] * kernel[j];
+        }
+        output[i] = output_cell;
+    }
+
+
+    AudioFile<double> post_filtering;                   //saving the audio
+    post_filtering,setAudioBuffer(output);
+    post_filtering.setNumChannels(1);
+    post_filtering.setSampleRate(audiosample.getSampleRate());          //everything about an audio file https://github.com/adamstark/AudioFile
+    post_filtering.setBitDepth(audiosample.getBitDepth());
+    post_filtering.setAudioBufferSize(audiosample.getAudioBufferSize());
+    
+    std::string post_filtering_loc = "post_filtering.wav";
+
+     if (!post_filtering.save(post_filtering_loc)) {
+        std::cerr << "Error saving the output audio file" << std::endl;
+        return 1;
+    }
 }
 
 
