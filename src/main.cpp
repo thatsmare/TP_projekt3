@@ -274,9 +274,8 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
 
         cv::imshow("Interpolated Image", resized_image);
         cv::waitKey(0);
-
+	*/
     return 0;
-    */
 }
 
 int oned_filtering(std::string file_location, int kernel_size){
