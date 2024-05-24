@@ -22,8 +22,6 @@ saw_wave_generate1:
 saw_wave_generate2:
 >>> scikit_build_example.saw_wave_generate(10,1,10,5,0,400,db)
 
-saw_wave_generate3:
->>> scikit_build_example.saw_wave_generate(10,1,10,0,90,400,dB)
 
 output_img.jpg:
 >>> scikit_build_example.twod_filter("./mayo.jpg", false,3);
