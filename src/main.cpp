@@ -244,7 +244,6 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
             y1 = static_cast<int>(posy);
             x2 = std::min(x1 + 1, static_cast<int>(old_width - 1));
             y2 = std::min(y1 + 1, static_cast<int>(old_height - 1));
-;
 
             //count how far is each pixel from points used to interpolation
             dx1 = posx - x1;
