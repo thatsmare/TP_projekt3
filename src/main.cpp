@@ -222,6 +222,7 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
         std::cerr << "Image not found" << std::endl;
         return -1;
     }
+    cv::Mat resized_image(new_height, new_width, image.type());
 
     double old_height = image.rows;  //old dimensions of the image
     double old_width = image.cols;
@@ -234,6 +235,10 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
 
     for (int y = 0; y < new_height; ++y) {
         for (int x = 0; x < new_width; ++x) {
+            //positions of pixels in original image
+            double posx = x * width_scale;
+            double posy = y * height_scale;
+
             //finds the nearest pixels for each pixel
             x1 = static_cast<int>(x);
             y1 = static_cast<int>(y);
@@ -241,10 +246,10 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
             y2 = y1 + 1;
 
             //count how far is each pixel from points used to interpolation
-            dx1 = x - x1;
-            dy1 = y - y1;
-            dx2 = x2 - x;
-            dy2 = y2 - y;
+            dx1 = posx - x1;
+            dy1 = posy - y1;
+            dx2 = 1 - dx1;
+            dy2 = 1 - dy1;
             
             //downloads RGB for pixels used to interpolation
             cv::Vec3b p1 = image.at<cv::Vec3b>(y1, x1);
@@ -253,16 +258,18 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
             cv::Vec3b p4 = image.at<cv::Vec3b>(y2, x2);
 
             //counts RGB for pixel that is interpolated
-            //there should be a function...
+            cv::Vec3b new_pixel= //tu ma być wzór
+            resized_image.at<cv::Vec3b>(y, x) = new_pixel;
         }
     }
 
-    if (!cv::imwrite("image_after_interpolation.jpg", final_image)) {
+
+    if (!cv::imwrite("image_after_interpolation.jpg", resized_image)) {
         std::cerr << "Error saving the image" << std::endl;
         return -1;
         }
 
-        cv::imshow("Interpolated Image", final_image);
+        cv::imshow("Interpolated Image", resized_image);
         cv::waitKey(0);
 
     return 0;
