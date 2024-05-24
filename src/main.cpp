@@ -20,29 +20,8 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-int add(int i, int j) {
-    return i + j;
-}
-
-int multiply(int i, int j) {
-    AudioFile<double> audioFile;
-
-    audioFile.load("C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav");
-
-    int sampleRate = audioFile.getSampleRate();
-    std::cout << sampleRate << std::endl;
-
-    return 0;
-}
-
-
-void signal_visualization() {
+void signal_visualization(std::string file_location) {
     AudioFile<double> audiosample;
-
-    std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
-
-    std::cout << "Location of the file to visualize:" << std::endl;     //mozliwosc dobory sciezki do pliku
-    std::cin >> file_location;
 
     audiosample.load(file_location);
 
@@ -68,7 +47,7 @@ void signal_visualization() {
 
 void signal_generate_sinusoidal(double amplitude, double frequency, double phase, double duration, int sampleRate) { //frequency [Hz], phase [degrees], duration [s], sampleRate [Hz]
 
-    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration) {
+    if (amplitude > 0 && frequency > 0 && duration > 0 && sampleRate > 0 && 1/sampleRate < duration) {
         
     int samples_number = static_cast<int>(sampleRate * duration);
 
@@ -93,7 +72,7 @@ void signal_generate_sinusoidal(double amplitude, double frequency, double phase
 }
 
 void signal_generate_square_wave(double amplitude, double period, double duration, double duty_cycle, int sampleRate) { //period [s], duration [s], duty_cycle [%], sampleRate [Hz]
-    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && 1/sampleRate < duration) {
+    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && sampleRate > 0 && 1/sampleRate < duration) {
     duty_cycle /= 100;      //changes percentages to number
 
     int samples_number = static_cast<int>(sampleRate * duration);
@@ -122,25 +101,10 @@ void signal_generate_square_wave(double amplitude, double period, double duratio
     else std::cout<<"Function parameters are incorrect";
 }
 
-void saw_wave_generate(){
-    double amplitude, frequency, duration, min_value, phase, sample_rate, fourier_approx;
-    std::string unit;
-    int harmonics = 101; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
-
-    std::cout << "Unit (on y axis): " << std::endl;
-    std::cin >> unit;
-    std::cout << "Amplitude [" << unit <<"]:" << std::endl;
-    std::cin >> amplitude;
-    std::cout << "Frequency [Hz]:" << std::endl;
-    std::cin >> frequency;
-     std::cout << "phase (degrees):" << std::endl;
-    std::cin >> phase;
-    std::cout << "Signal duration [s]: " << std::endl;
-    std::cin >> duration;
-    std::cout << "Minimal Value [" << unit <<"]: " << std::endl;
-    std::cin >> min_value;
-    std::cout << "Sample Rate [Hz]: " << std::endl;
-    std::cin >> sample_rate;
+void saw_wave_generate(double amplitude, double frequency, double duration, double min_value, double phase, double sample_rate, std::string unit){
+    if (amplitude > 0 && frequency > 0 && duration > 0 && sample_rate > 0 && 1/sample_rate < duration) {
+        double fourier_approx;
+        int harmonics = 101; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
 
         phase *= M_PI/180;      //radians easier to count
         int all_measure_points = static_cast<int>(sample_rate*duration);
@@ -163,25 +127,19 @@ void saw_wave_generate(){
             }
         }
 
-     
-
-
- using namespace matplot;
+    using namespace matplot;
     plot(time, signal);
     title("Wygenerowany sygnał piłokształtny");
     xlabel("Czas (s)");
     ylabel("Amplituda [" + unit + "]");
     ylim({min_value - 1, amplitude + min_value + 1});
     show();
-
+    }
+    else std::cout<<"Function parameters are incorrect";
 }
 
-int twod_filter(){
-    std::string file_path; //image location
-    std::cout<< "What's the image's location?: " << std::endl;
-    std::cin  >> file_path;
-    
-    file_path = "C:/Users/marty/Documents/projects/tp_projekt3/mayo.jpg";   //test
+int twod_filter(std::string file_path){
+    //file_path = "C:/Users/marty/Documents/projects/tp_projekt3/mayo.jpg";   //test
 
     cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
 
@@ -190,7 +148,7 @@ int twod_filter(){
         return -1;
     }
     
-  /*  int kernel_size=0;
+    int kernel_size=0;
     while(kernel_size % 2 != 1){
         std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
         std::cin >> kernel_size;
@@ -239,7 +197,7 @@ int twod_filter(){
 
         cv::imshow("Filtered Image", final_image);
         cv::waitKey(0);
-    */    
+        
 }
 
 int bilinear_interpolation(){
@@ -260,14 +218,10 @@ int bilinear_interpolation(){
     return 0;
 }
 
-int oned_filtering(){
+int oned_filtering(std::string file_location){
   AudioFile<double> audiosample;
 
    // std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
-
-    std::cout << "Location of the file:" << std::endl;     //choose path 
-    std::cin >> file_location;
-
     if(!audiosample.load(file_location)){
         std::cerr << "Audio could not be loaded" << std::endl;
         return 1;
@@ -341,14 +295,6 @@ PYBIND11_MODULE(_core, m) {
            signal_generate_square_wave
     )pbdoc";
 
-    m.def("add", &add, R"pbdoc(
-        Add two numbers
-    )pbdoc");
-
-    m.def("multiply", &multiply, R"pbdoc(
-        Multiply two numbers
-    )pbdoc");
-
     m.def("signal_visualization", &signal_visualization, R"pbdoc(
         Visualizes the signal with matplot library
     )pbdoc");
@@ -373,10 +319,13 @@ PYBIND11_MODULE(_core, m) {
         Bilinear interpolation of an image
         )pbdoc");
 
+    m.def("oned_filtering", &oned_filtering, R"pbdoc(
+         1d filtration
+        )pbdoc");
+
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 #else
     m.attr("__version__") = "dev";
 #endif
 }
-
