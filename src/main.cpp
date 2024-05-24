@@ -258,7 +258,7 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
             cv::Vec3b p4 = image.at<cv::Vec3b>(y2, x2);
 
             //counts RGB for pixel that is interpolated
-            cv::Vec3b new_pixel= //tu ma być wzór
+            cv::Vec3b new_pixel=p1*dx1*dy1+p2*dy2*dx1+p3*dx2*dy1+p4*dx2*dy2;
             resized_image.at<cv::Vec3b>(y, x) = new_pixel;
         }
     }
