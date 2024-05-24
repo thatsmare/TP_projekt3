@@ -1,17 +1,11 @@
 signal_visualization1.png:
->>> scikit_build_example.signal_visualization()
-Location of the file to visualize:
-C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav
+>>> scikit_build_example.signal_visualization(C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav)
 
 signal_visualization2.png:
->>> scikit_build_example.signal_visualization()
-Location of the file to visualize:
-C:\Users\marty\Downloads\wav_mono_16bit_48000.wav  
+>>> scikit_build_example.signal_visualization(C:\Users\marty\Downloads\wav_mono_16bit_48000.wav)
 
 signal_visualization3.png:
->>> scikit_build_example.signal_visualization()       
-Location of the file to visualize:
-C:\Users\marty\Downloads\aiff_stereo_16bit_44100.aif  
+>>> scikit_build_example.signal_visualization(C:\Users\marty\Downloads\aiff_stereo_16bit_44100.aif )        
 
 signal_generate_sinusoidal1:
 >>> scikit_build_example.signal_generate_sinusoidal(10,1,0,10,44100) 
@@ -23,68 +17,10 @@ signal_generate_square_wave1:
 >>> scikit_build_example.signal_generate_square_wave(20,50,100,50,100) 
 
 saw_wave_generate1:
->>> scikit_build_example.saw_wave_generate()                          
-Unit (on y axis):
-dB
-Amplitude [unit]:
-10
-Frequency [Hz]:
-2
-phase (degrees):
-0
-Signal duration [s]:
-10
-Minimal Value [unit]:
-0
-Sample Rate [Hz]:
-400
+>>> scikit_build_example.saw_wave_generate(10,2,10,0,0,400,dB)                          
 
 saw_wave_generate2:
->>> scikit_build_example.saw_wave_generate()
-Unit (on y axis):
-db
-Amplitude [db]:
-10
-Frequency [Hz]:
-1
-phase (degrees):
-0
-Signal duration [s]:
-10
-Minimal Value [db]:
-5
-Sample Rate [Hz]:
-400
+>>> scikit_build_example.saw_wave_generate(10,1,10,5,0,400,db)
 
 saw_wave_generate3:
->>> scikit_build_example.saw_wave_generate()
-Unit (on y axis):
-dB
-Amplitude [dB]:
-10
-Frequency [Hz]:
-1
-phase (degrees):
-90
-Signal duration [s]:
-10
-Minimal Value [dB]:
-0
-Sample Rate [Hz]:
-400
-Press ENTER to continue...
->>> scikit_build_example.saw_wave_generate()
-Unit (on y axis):
-dB
-Amplitude [dB]:
-10
-Frequency [Hz]:
-1
-phase (degrees):
-40
-Signal duration [s]:
-10
-Minimal Value [dB]:
-5
-Sample Rate [Hz]:
-4000
+>>> scikit_build_example.saw_wave_generate(10,1,10,0,90,400,dB)
