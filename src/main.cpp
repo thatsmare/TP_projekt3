@@ -215,8 +215,7 @@ int twod_filter(std::string file_path, bool own_kernel, int kernel_size){
         
 }
 
-int bilinear_interpolation(std::string file_path){
- /*   
+int bilinear_interpolation(std::string file_path, double new_width, double new_height){
       cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
 
       if (image.empty()) {                              //checks if loaded
@@ -224,9 +223,48 @@ int bilinear_interpolation(std::string file_path){
         return -1;
     }
 
-    int old_width, old_height;  //old dimensions of the image
-    int new_width, new_height;
-    */
+    double old_height = image.rows;  //old dimensions of the image
+    double old_width = image.cols;
+
+    double width_scale = old_width / new_width;      //counts scale
+    double height_scale = old_height / new_height;
+
+    int x1,x2,y1,y2; //definition of the nearest pixels
+    double dx1, dx2, dy1, dy2; //definition of distances between pixels used to interpolation 
+
+    for (int y = 0; y < new_height; ++y) {
+        for (int x = 0; x < new_width; ++x) {
+            //finds the nearest pixels for each pixel
+            x1 = static_cast<int>(x);
+            y1 = static_cast<int>(y);
+            x2 = x1 + 1;
+            y2 = y1 + 1;
+
+            //count how far is each pixel from points used to interpolation
+            dx1 = x - x1;
+            dy1 = y - y1;
+            dx2 = x2 - x;
+            dy2 = y2 - y;
+            
+            //downloads RGB for pixels used to interpolation
+            cv::Vec3b p1 = image.at<cv::Vec3b>(y1, x1);
+            cv::Vec3b p2 = image.at<cv::Vec3b>(y1, x2);
+            cv::Vec3b p3 = image.at<cv::Vec3b>(y2, x1);
+            cv::Vec3b p4 = image.at<cv::Vec3b>(y2, x2);
+
+            //counts RGB for pixel that is interpolated
+            //there should be a function...
+        }
+    }
+
+    if (!cv::imwrite("image_after_interpolation.jpg", final_image)) {
+        std::cerr << "Error saving the image" << std::endl;
+        return -1;
+        }
+
+        cv::imshow("Interpolated Image", final_image);
+        cv::waitKey(0);
+
     return 0;
 }
 
