@@ -240,10 +240,11 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
             double posy = y * height_scale;
 
             //finds the nearest pixels for each pixel
-            x1 = static_cast<int>(x);
-            y1 = static_cast<int>(y);
-            x2 = x1 + 1;
-            y2 = y1 + 1;
+            x1 = static_cast<int>(posx);
+            y1 = static_cast<int>(posy);
+            x2 = std::min(x1 + 1, static_cast<int>(old_width - 1));
+            y2 = std::min(y1 + 1, static_cast<int>(old_height - 1));
+;
 
             //count how far is each pixel from points used to interpolation
             dx1 = posx - x1;
@@ -258,7 +259,7 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
             cv::Vec3b p4 = image.at<cv::Vec3b>(y2, x2);
 
             //counts RGB for pixel that is interpolated
-            cv::Vec3b new_pixel=p1*dx1*dy1+p2*dy2*dx1+p3*dx2*dy1+p4*dx2*dy2;
+            cv::Vec3b new_pixel=p1*dx2*dy2+p2*dy2*dx1+p3*dx2*dy1+p4*dx1*dy1;
             resized_image.at<cv::Vec3b>(y, x) = new_pixel;
         }
     }
