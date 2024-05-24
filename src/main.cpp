@@ -138,7 +138,7 @@ void saw_wave_generate(double amplitude, double frequency, double duration, doub
     else std::cout<<"Function parameters are incorrect";
 }
 
-int twod_filter(std::string file_path){
+int twod_filter(std::string file_path, bool own_kernel, int kernel_size){
     //file_path = "C:/Users/marty/Documents/projects/tp_projekt3/mayo.jpg";   //test
 
     cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
@@ -148,20 +148,35 @@ int twod_filter(std::string file_path){
         return -1;
     }
     
-    int kernel_size=0;
+ /*   int kernel_size=0;
     while(kernel_size % 2 != 1){
         std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
         std::cin >> kernel_size;
     }
 
     std::vector<std::vector<int>> kernel(kernel_size, std::vector<int>(kernel_size)); //kernel vector (2D table) outer->row, inner->column
+    */
+    if(!own_kernel){
 
      for (int r = 0; r < kernel_size; ++r) {            //r-row
         for (int c = 0; c < kernel_size; ++c) {         //c-column
             kernel[r][c] = 1;
         }
     }
-
+    }
+    else{
+        int kernel_value;
+       for (int r = 0; r < kernel_size; ++r) {            //r-row
+        for (int c = 0; c < kernel_size; ++c) {         //c-column
+           std::cout << "Kernel[" << r << "][" << c << "]:";
+           while(!std::cin << kernel_value){
+             std::cin.clear();  
+             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  
+            }
+            kernel[r][c] = kernel_value;
+        }
+    }
+    }
     int add_frame_size = kernel_size / 2;       //https://docs.opencv.org/4.8.0/dc/da3/tutorial_copyMakeBorder.html
 
    cv::Mat framed_image;
