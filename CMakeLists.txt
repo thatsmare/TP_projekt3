@@ -25,6 +25,8 @@ target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
 # The install directory is the output (wheel) directory
 install(TARGETS _core DESTINATION scikit_build_example)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AudioFile)
+
 
 #matplot library
 add_subdirectory(matplotplusplus)
