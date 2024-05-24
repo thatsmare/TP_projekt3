@@ -20,29 +20,8 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-int add(int i, int j) {
-    return i + j;
-}
-
-int multiply(int i, int j) {
-    AudioFile<double> audioFile;
-
-    audioFile.load("C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav");
-
-    int sampleRate = audioFile.getSampleRate();
-    std::cout << sampleRate << std::endl;
-
-    return 0;
-}
-
-
-void signal_visualization() {
+void signal_visualization(std::string file_location) {
     AudioFile<double> audiosample;
-
-    std::string file_location; // = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
-
-    std::cout << "Location of the file to visualize:" << std::endl;     //mozliwosc dobory sciezki do pliku
-    std::cin >> file_location;
 
     audiosample.load(file_location);
 
@@ -68,7 +47,7 @@ void signal_visualization() {
 
 void signal_generate_sinusoidal(double amplitude, double frequency, double phase, double duration, int sampleRate) { //frequency [Hz], phase [degrees], duration [s], sampleRate [Hz]
 
-    if (amplitude > 0 && frequency > 0 && duration > 0 && 1/sampleRate < duration) {
+    if (amplitude > 0 && frequency > 0 && duration > 0 && sampleRate > 0 && 1/sampleRate < duration) {
         
     int samples_number = static_cast<int>(sampleRate * duration);
 
@@ -93,7 +72,7 @@ void signal_generate_sinusoidal(double amplitude, double frequency, double phase
 }
 
 void signal_generate_square_wave(double amplitude, double period, double duration, double duty_cycle, int sampleRate) { //period [s], duration [s], duty_cycle [%], sampleRate [Hz]
-    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && 1/sampleRate < duration) {
+    if (amplitude > 0 && period > 0 && duration > 0 && duty_cycle > 0 && duty_cycle < 100 && sampleRate > 0 && 1/sampleRate < duration) {
     duty_cycle /= 100;      //changes percentages to number
 
     int samples_number = static_cast<int>(sampleRate * duration);
@@ -122,25 +101,10 @@ void signal_generate_square_wave(double amplitude, double period, double duratio
     else std::cout<<"Function parameters are incorrect";
 }
 
-void saw_wave_generate(){
-    double amplitude, frequency, duration, min_value, phase, sample_rate, fourier_approx;
-    std::string unit;
-    int harmonics = 101; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
-
-    std::cout << "Unit (on y axis): " << std::endl;
-    std::cin >> unit;
-    std::cout << "Amplitude [" << unit <<"]:" << std::endl;
-    std::cin >> amplitude;
-    std::cout << "Frequency [Hz]:" << std::endl;
-    std::cin >> frequency;
-     std::cout << "phase (degrees):" << std::endl;
-    std::cin >> phase;
-    std::cout << "Signal duration [s]: " << std::endl;
-    std::cin >> duration;
-    std::cout << "Minimal Value [" << unit <<"]: " << std::endl;
-    std::cin >> min_value;
-    std::cout << "Sample Rate [Hz]: " << std::endl;
-    std::cin >> sample_rate;
+void saw_wave_generate(double amplitude, double frequency, double duration, double min_value, double phase, double sample_rate, std::string unit){
+    if (amplitude > 0 && frequency > 0 && duration > 0 && sample_rate > 0 && 1/sample_rate < duration) {
+        double fourier_approx;
+        int harmonics = 101; //info from https://kconrad.math.uconn.edu/math1132s10/sawtooth.html#:~:text=Fairly%20general%2C%20even%20discontinuous%2C%20periodic,3x)%20%2B%20....&text=sin(x)%20-%201⁄,(6x)%20%2B%20...
 
         phase *= M_PI/180;      //radians easier to count
         int all_measure_points = static_cast<int>(sample_rate*duration);
@@ -163,23 +127,18 @@ void saw_wave_generate(){
             }
         }
 
-     
-
-
- using namespace matplot;
+    using namespace matplot;
     plot(time, signal);
     title("Wygenerowany sygnał piłokształtny");
     xlabel("Czas (s)");
     ylabel("Amplituda [" + unit + "]");
     ylim({min_value - 1, amplitude + min_value + 1});
     show();
+    }
+    else std::cout<<"Function parameters are incorrect";
 }
 
-int twod_filter(){
-  /*  std::string file_path; //image location
-    std::cout<< "What's the image's location?: " << std::endl;
-    std::cin  >> file_path;
-    
+int twod_filter(std::string file_path){
     //file_path = "C:/Users/marty/Documents/projects/tp_projekt3/mayo.jpg";   //test
 
     cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
@@ -188,9 +147,8 @@ int twod_filter(){
         std::cerr << "Image not found" << std::endl;
         return -1;
     }
-    */
     
-  /*  int kernel_size=0;
+    int kernel_size=0;
     while(kernel_size % 2 != 1){
         std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
         std::cin >> kernel_size;
@@ -239,15 +197,11 @@ int twod_filter(){
 
         cv::imshow("Filtered Image", final_image);
         cv::waitKey(0);
-    */    
-   return 0;
+        
 }
 
-int bilinear_interpolation(){
- /*   std::string file_path; //image location
-    std::cout<< "What's the image's location?: " << std::endl;
-    std::cin  >> file_path;
-
+int bilinear_interpolation(std::string file_path){
+ /*   
       cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
 
       if (image.empty()) {                              //checks if loaded
@@ -261,13 +215,10 @@ int bilinear_interpolation(){
     return 0;
 }
 
-int oned_filtering(){
+int oned_filtering(std::string file_location){
   AudioFile<double> audiosample;
 
-   std::string file_location; // = "C:\Users\marty\Downloads\wav_mono_16bit_44100.wav"
-    std::cout << "Location of the file:" << std::endl;     //choose path 
-    std::cin >> file_location;
-
+   // std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
     if(!audiosample.load(file_location)){
         std::cerr << "Audio could not be loaded" << std::endl;
         return 1;
@@ -294,51 +245,24 @@ int oned_filtering(){
         std::cout << "Input an integer, please" << std::endl;
     }
 
-    char decision = '0';
-    while(decision != 'y' && decision != 'Y' && decision != 'n' && decision != 'N'){
-    std::cout << "Do you want to modify the kernel? (y/n):" << std::endl;
-    std::cin >> decision;
-    }
     std::vector<double> kernel(kernel_size,1);
-
-    if(decision == 'y' || decision == 'Y'){
-        for(int i = 0; i< kernel_size; i++){
-            std::cout << "Kernel[" << i <<"] = ";
-            while(!(std::cin >>  kernel[i])){
-                 std::cin.clear(); // Clear input stream
-                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');};
-        }
-        std::cout << "Kernel(";
-        for(int i = 0; i< kernel_size; i++){
-            std::cout << ',' << i;
-        }
-        std::cout << ')' << std::endl;
-    }
-    else{
-    kernel.assign(kernel_size,1);
-    }
     std::vector<double> output(numSamples);
 
     for(int i = 0; i< audio.size(); i++){               //https://www.youtube.com/watch?v=yd_j_zdLDWs
         int output_cell = 0;
         for(int j =0; j < kernel_size; j++){
-            if(!((i+j) >audio.size())){
             output_cell += audio[i+j] * kernel[j];
-            }
         }
         output[i] = output_cell;
     }
 
 
     AudioFile<double> post_filtering;                   //saving the audio
+    post_filtering,setAudioBuffer(output);
     post_filtering.setNumChannels(1);
     post_filtering.setSampleRate(audiosample.getSampleRate());          //everything about an audio file https://github.com/adamstark/AudioFile
     post_filtering.setBitDepth(audiosample.getBitDepth());
-    post_filtering.setNumSamplesPerChannel(numSamples);
-
-    for(int i = 0; i< numSamples; i++){
-        post_filtering.samples[0][i] = output[i];
-    }
+    post_filtering.setAudioBufferSize(audiosample.getAudioBufferSize());
     
     std::string post_filtering_loc = "post_filtering.wav";
 
@@ -346,7 +270,6 @@ int oned_filtering(){
         std::cerr << "Error saving the output audio file" << std::endl;
         return 1;
     }
-    return 0;
 }
 
 
@@ -362,20 +285,16 @@ PYBIND11_MODULE(_core, m) {
         .. autosummary::
            :toctree: _generate
 
-           add
-           multiply
+        
            signal_visualization
            signal_generate_sinusoidal
            signal_generate_square_wave
+	   saw_wave_generate
+	   twod_filter
+           oned_filtering
+	   bilinear_interpolation
+	    
     )pbdoc";
-
-    m.def("add", &add, R"pbdoc(
-        Add two numbers
-    )pbdoc");
-
-    m.def("multiply", &multiply, R"pbdoc(
-        Multiply two numbers
-    )pbdoc");
 
     m.def("signal_visualization", &signal_visualization, R"pbdoc(
         Visualizes the signal with matplot library
@@ -402,7 +321,7 @@ PYBIND11_MODULE(_core, m) {
         )pbdoc");
 
     m.def("oned_filtering", &oned_filtering, R"pbdoc(
-        1D filtering of a signal
+         1d filtration
         )pbdoc");
 
 #ifdef VERSION_INFO
@@ -411,4 +330,3 @@ PYBIND11_MODULE(_core, m) {
     m.attr("__version__") = "dev";
 #endif
 }
-
