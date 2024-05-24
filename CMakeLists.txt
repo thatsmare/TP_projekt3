@@ -25,11 +25,21 @@ target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
 # The install directory is the output (wheel) directory
 install(TARGETS _core DESTINATION scikit_build_example)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AudioFile)
-
-
 #matplot library
 add_subdirectory(matplotplusplus)
 
 target_link_libraries(_core PUBLIC matplot)
 
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/AudioFile)
+
+#OpenCV package
+find_package(OpenCV REQUIRED)
+
+# OpenCV headers
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+
+# set(OpenCV_DIR "C:/Program Files/opencv/build")  
+
+target_link_libraries(_core PRIVATE ${OpenCV_LIBS})
