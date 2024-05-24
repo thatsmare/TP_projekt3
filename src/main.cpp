@@ -200,11 +200,8 @@ int twod_filter(std::string file_path){
         
 }
 
-int bilinear_interpolation(){
- /*   std::string file_path; //image location
-    std::cout<< "What's the image's location?: " << std::endl;
-    std::cin  >> file_path;
-
+int bilinear_interpolation(std::string file_path){
+ /*   
       cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
 
       if (image.empty()) {                              //checks if loaded
@@ -288,11 +285,15 @@ PYBIND11_MODULE(_core, m) {
         .. autosummary::
            :toctree: _generate
 
-           add
-           multiply
+        
            signal_visualization
            signal_generate_sinusoidal
            signal_generate_square_wave
+	   saw_wave_generate
+	   twod_filter
+           oned_filtering
+	   bilinear_interpolation
+	    
     )pbdoc";
 
     m.def("signal_visualization", &signal_visualization, R"pbdoc(
