@@ -138,7 +138,7 @@ void saw_wave_generate(double amplitude, double frequency, double duration, doub
     else std::cout<<"Function parameters are incorrect";
 }
 
-int twod_filter(std::string file_path, bool own_kernel, int kernel_size){
+int twod_filter(std::string file_path, bool own_kernel, int kernel_size){/*
     //file_path = "C:/Users/marty/Documents/projects/tp_projekt3/mayo.jpg";   //test
 
     cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
@@ -147,6 +147,7 @@ int twod_filter(std::string file_path, bool own_kernel, int kernel_size){
         std::cerr << "Image not found" << std::endl;
         return -1;
     }
+    */
     
  /*   int kernel_size=0;
     while(kernel_size % 2 != 1){
@@ -154,6 +155,7 @@ int twod_filter(std::string file_path, bool own_kernel, int kernel_size){
         std::cin >> kernel_size;
     }
     */
+   /*
     std::vector<std::vector<int>> kernel(kernel_size, std::vector<int>(kernel_size)); //kernel vector (2D table) outer->row, inner->column
     
     if(!own_kernel){
@@ -212,10 +214,11 @@ int twod_filter(std::string file_path, bool own_kernel, int kernel_size){
 
         cv::imshow("Filtered Image", final_image);
         cv::waitKey(0);
-        
+        */
+       return 0;
 }
 
-int bilinear_interpolation(std::string file_path, double new_width, double new_height){
+int bilinear_interpolation(std::string file_path, double new_width, double new_height){/*
       cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);   //loads img
 
       if (image.empty()) {                              //checks if loaded
@@ -271,7 +274,7 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
 
         cv::imshow("Interpolated Image", resized_image);
         cv::waitKey(0);
-
+*/
     return 0;
 }
 
