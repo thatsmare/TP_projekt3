@@ -153,9 +153,9 @@ int twod_filter(std::string file_path, bool own_kernel, int kernel_size){
         std::cout<< "Choose the size of the kernel(an odd number): " << std::endl; //odd bc i need the middle 
         std::cin >> kernel_size;
     }
-
-    std::vector<std::vector<int>> kernel(kernel_size, std::vector<int>(kernel_size)); //kernel vector (2D table) outer->row, inner->column
     */
+    std::vector<std::vector<int>> kernel(kernel_size, std::vector<int>(kernel_size)); //kernel vector (2D table) outer->row, inner->column
+    
     if(!own_kernel){
 
      for (int r = 0; r < kernel_size; ++r) {            //r-row
@@ -206,7 +206,7 @@ int twod_filter(std::string file_path, bool own_kernel, int kernel_size){
         }
 
          if (!cv::imwrite("output_img.jpg", final_image)) {
-        std::cerr << "Error saving the image" << std::endl;
+        std::cerr << "Could not save" << std::endl;
         return -1;
         }
 
@@ -275,7 +275,7 @@ int bilinear_interpolation(std::string file_path, double new_width, double new_h
     return 0;
 }
 
-int oned_filtering(std::string file_location){
+int oned_filtering(std::string file_location, int kernel_size){
   AudioFile<double> audiosample;
 
    // std::string file_location = "C:/Users/marty/Documents/GitHub/TP_projekt3/AudioFile/examples/test-audio.wav";
@@ -297,13 +297,16 @@ int oned_filtering(std::string file_location){
     {
 	    audio[i] = audiosample.samples[0][i]; //0 is for channels we have 1
     }
-    
+
+     /*  
     int kernel_size;
 
-    std::cout << "Kernel size: " << std::endl;
+ std::cout << "Kernel size: " << std::endl;
     while(!(std::cin >> kernel_size)){
+        
         std::cout << "Input an integer, please" << std::endl;
     }
+    */
 
     std::vector<double> kernel(kernel_size,1);
     std::vector<double> output(numSamples);
@@ -318,16 +321,17 @@ int oned_filtering(std::string file_location){
 
 
     AudioFile<double> post_filtering;                   //saving the audio
-    post_filtering,setAudioBuffer(output);
+ 
     post_filtering.setNumChannels(1);
     post_filtering.setSampleRate(audiosample.getSampleRate());          //everything about an audio file https://github.com/adamstark/AudioFile
     post_filtering.setBitDepth(audiosample.getBitDepth());
-    post_filtering.setAudioBufferSize(audiosample.getAudioBufferSize());
+    post_filtering.samples[0] = output;
+
     
     std::string post_filtering_loc = "post_filtering.wav";
 
      if (!post_filtering.save(post_filtering_loc)) {
-        std::cerr << "Error saving the output audio file" << std::endl;
+        std::cerr << "Could not save" << std::endl;
         return 1;
     }
 }
